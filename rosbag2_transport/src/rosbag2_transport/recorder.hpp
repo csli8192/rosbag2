@@ -97,7 +97,7 @@ private:
   void warn_if_new_qos_for_subscribed_topic(const std::string & topic_name);
 
   std::vector<std::string> requested_topics_;
-  bool include_hidden_topics_;
+  bool include_hidden_topics_ = false;
   rclcpp::TimerBase::SharedPtr discovery_timer_;
 
   std::shared_ptr<rosbag2_cpp::Writer> writer_;
