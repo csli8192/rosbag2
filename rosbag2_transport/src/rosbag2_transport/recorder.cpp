@@ -64,7 +64,7 @@ void Recorder::record(const RecordOptions & record_options)
 
   if (!record_options.is_discovery_disabled) {
     discovery_timer_ = node_->create_wall_timer(record_options.topic_polling_interval,
-      std::bind(&Recorder::topics_discovery_callback, this));
+        std::bind(&Recorder::topics_discovery_callback, this));
   }
 
   record_messages();
@@ -74,17 +74,17 @@ void Recorder::record(const RecordOptions & record_options)
 
 void Recorder::topics_discovery_callback()
 {
-    auto topics_to_subscribe = get_requested_or_available_topics();
-    for (const auto & topic_and_type : topics_to_subscribe) {
-      warn_if_new_qos_for_subscribed_topic(topic_and_type.first);
-    }
-    auto missing_topics = get_missing_topics(topics_to_subscribe);
-    subscribe_topics(missing_topics);
+  auto topics_to_subscribe = get_requested_or_available_topics();
+  for (const auto & topic_and_type : topics_to_subscribe) {
+    warn_if_new_qos_for_subscribed_topic(topic_and_type.first);
+  }
+  auto missing_topics = get_missing_topics(topics_to_subscribe);
+  subscribe_topics(missing_topics);
 
-    if (!requested_topics_.empty() && subscriptions_.size() == requested_topics_.size()) {
-      ROSBAG2_TRANSPORT_LOG_INFO("All requested topics are subscribed. Stopping discovery...");
-      discovery_timer_->cancel();
-    }
+  if (!requested_topics_.empty() && subscriptions_.size() == requested_topics_.size()) {
+    ROSBAG2_TRANSPORT_LOG_INFO("All requested topics are subscribed. Stopping discovery...");
+    discovery_timer_->cancel();
+  }
 }
 
 std::unordered_map<std::string, std::string>
